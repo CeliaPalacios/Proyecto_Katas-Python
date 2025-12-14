@@ -135,7 +135,7 @@ def permitido(mascota):
 def filtrar_mascotas(mascotas):
     return list(filter(permitido, mascotas))
 
-lista = ["Pero", "Gato", "Mapache", "Canario"]
+lista = ["Perro", "Gato", "Mapache", "Canario"]
 print(filtrar_mascotas(lista))
 
 
@@ -276,8 +276,9 @@ print(filtrar_estudiantes(alumnos))
 
 # Kata 19. Crea una función lambda que filtre los números impares de una lista dada.
 
-filtrar_impares = lambda lista: list(filter(lambda x: x % 2 != 0, lista))
-
+def filtrar_impares(lista):
+    return list(filter(lambda x: x % 2!= 0, lista))
+   
 print(filtrar_impares([1, 2, 3, 4, 5, 6]))
 
 
@@ -483,7 +484,7 @@ class Arbol:
         if 0 <= posicion < len(self.ramas):
             self.ramas.pop(posicion)
         else:
-            print("Posición Inválida")
+            raise IndexError("Posición Inválida")
 
     def info_arbol(self):
         return {
@@ -527,11 +528,11 @@ class UsuarioBanco:
             raise ValueError("Saldo insuficiente")
         self.saldo -= cantidad
 
-    def transferir_dinero(self, otro_usuario, cantidad):
-        if cantidad > otro_usuario.saldo and not otro_usuario.cuenta_corriente:
-            raise ValueError("Saldo insuficiente en el usuario origen")
-        otro_usuario.saldo -= cantidad
-        self.saldo += cantidad
+    def transferir_dinero(self, destino, cantidad):
+        if cantidad > self.saldo and not self.cuenta_corriente:
+            raise ValueError("Saldo insuficiente")
+        self.saldo -= cantidad
+        destino.saldo += cantidad
 
     def agregar_dinero(self, cantidad):
         self.saldo += cantidad
@@ -600,7 +601,7 @@ def momento_del_dia(hora):
         return "día"
     elif 12 <= hora < 18:
         return "tarde"
-    elif 0 <= hora < 24:
+    elif (18 <= hora < 24) or (0 <= hora < 6):
         return "noche"
     else:
         return "Hora inválida"
@@ -673,10 +674,9 @@ def precio_final():
 
         if tiene_cupon in ["si", "sí"]:
             valor_cupon = float(input("Introduce el valor del cupón: "))
-            if valor_cupon > 0:
-                precio -= valor_cupon
-                if precio < 0:
-                    precio = 0
+            if valor_cupon > precio:
+                print("El cupón supera el precio, se ajustará a 0.")
+                precio = 0
 
         print("El precio final es:", precio)
 
